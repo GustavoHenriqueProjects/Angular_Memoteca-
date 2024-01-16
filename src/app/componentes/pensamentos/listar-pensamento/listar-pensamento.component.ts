@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Pensamento } from '../pensamento';
+import { PensamentoService } from '../pensamento.service';
 
 @Component({
   selector: 'app-listar-pensamento',
@@ -8,7 +9,7 @@ import { Pensamento } from '../pensamento';
 })
 export class ListarPensamentoComponent implements OnInit {
 
-  // listarPensamentos = [
+  // listarPensamentos: Pensamento[] = [
   //   {
   //     conteudo: 'Passa as informações para o componente filho',
   //     autoria: 'Componente Pai',
@@ -30,9 +31,17 @@ export class ListarPensamentoComponent implements OnInit {
     
   ]
 
-  constructor() { }
+  constructor(private service: PensamentoService) { }
 
+  /*ngOnInit faz parte do ciclo de vida do componente, toda lógica que deve ser executada
+    junto com o componente deve ficar dentro do ngOnInit.
+    
+    Com o subscribe o observable sabe que presisa enviar notificações para o componente.
+  */ 
   ngOnInit(): void {
+    this.service.listar().subscribe((listaPensamentos) => {
+      this.listarPensamentos = listaPensamentos
+    })
   }
 
 }
